@@ -22,7 +22,7 @@ class FruitDiseasesNotifier extends StateNotifier<List<FruitDiseases>> {
 
   Future<void> loadFruitDiseases() async {
     final List<FruitDiseases> fruitsDiseases = await fecthMoreFruitDiseases();
-    state = [...state, ...fruitsDiseases];
+    state = [ ...fruitsDiseases];
   }
 
   

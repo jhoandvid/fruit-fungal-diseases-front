@@ -1,6 +1,6 @@
 
-import 'package:fruit_fungal_diseases/features/auth/screens/login_screen.dart';
-import 'package:fruit_fungal_diseases/features/auth/screens/register_screen.dart';
+import 'package:fruit_fungal_diseases/features/auth/presentation/screens/login_screen.dart';
+import 'package:fruit_fungal_diseases/features/auth/presentation/screens/register_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/fruits/presentation/screen/home_screen.dart';
