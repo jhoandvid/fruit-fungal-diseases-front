@@ -8,15 +8,23 @@ class FruitDiseasesdbDatasource extends FruitDiseasesDatasource {
 
   @override
   Future<List<FruitDiseases>> getFruitDiseases() async {
-    final response = await dio.get<List>('/fruit/diseases');
+    final response = await dio.get('/fruit/diseases');
     final List<FruitDiseases> fruitsDisiases = [];
-    for (final product in response.data ?? []) {
-      fruitsDisiases.add(FruitDiseasesMapper.jsonToEntity(product));
+    for (final fruitsDisease in response.data ?? []) {
+      fruitsDisiases.add(FruitDiseasesMapper.jsonToEntity(fruitsDisease));
     }
     return fruitsDisiases;
 
-    //final List<FruitDiseases> movies = fruitDBResponse.map((moviedb) => MovieMapper.movieDBToEntity(moviedb)).toList();
-
-    //return fruitDBResponse;
+  
+  }
+  
+  @override
+  Future<List<FruitDiseases>> searchFruitDisease(String query) async {
+    final response = await dio.get('/fruit/search', queryParameters: {'query':query});
+    final List<FruitDiseases> fruitsDisiases = [];
+    for (final fruitsDisease in response.data ?? []) {
+      fruitsDisiases.add(FruitDiseasesMapper.jsonToEntity(fruitsDisease));
+    }
+    return fruitsDisiases;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fruit_fungal_diseases/features/auth/presentation/providers/auth_provider.dart';
-import 'package:fruit_fungal_diseases/features/auth/presentation/providers/register_from_provider.dart';
+import 'package:fruit_fungal_diseases/features/auth/presentation/providers/register_form_provider.dart';
 import 'package:fruit_fungal_diseases/features/shared/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 
@@ -136,10 +136,7 @@ class _RegisterForm extends ConsumerWidget {
               child: CustomFilledButton(
                 text: 'Crear',
                 buttonColor: Colors.green,
-                onPressed: () {
-                  ref.read(registerFormProvider.notifier).onFormSubmit();
-                  //context.push('/');
-                },
+                onPressed: registerForm.isPosting? null: ref.read(registerFormProvider.notifier).onFormSubmit
               )),
           const Spacer(flex: 2),
           Row(

@@ -13,7 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     
-     final screens = [const FruitDiseasesScreen()];
+     final screens = [const FruitDiseasesScreen(), const FruitDiseasesScreen(), const FruitDiseasesScreen()];
 
     return Scaffold(
        body: IndexedStack(

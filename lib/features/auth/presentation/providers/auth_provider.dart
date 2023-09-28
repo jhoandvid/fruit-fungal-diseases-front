@@ -1,15 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fruit_fungal_diseases/features/auth/domain/domain.dart';
 import 'package:fruit_fungal_diseases/features/auth/infraestructure/infrastructure.dart';
+import 'package:fruit_fungal_diseases/features/shared/infraestructure/services/key_value_storage_service.dart';
+import 'package:fruit_fungal_diseases/features/shared/infraestructure/services/key_value_storage_service_impl.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authRepository = AuthRepositoryImpl();
-  return AuthNotifier(authRepository: authRepository);
+  final keyValueStorageService = KeyValueStorageServiceImpl();
+
+  return AuthNotifier(
+      authRepository: authRepository,
+      keyValueStorageService: keyValueStorageService);
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final AuthRepository authRepository;
-  AuthNotifier({required this.authRepository}) : super(AuthState());
+  final KeyValueStorageService keyValueStorageService;
+  AuthNotifier(
+      {required this.authRepository, required this.keyValueStorageService})
+      : super(AuthState()) {
+    checkAuthStatus();
+  }
 
   Future<void> loginUser(String email, String password) async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -35,9 +46,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  void checkAuthStatus() async {}
+  void checkAuthStatus() async {
+    final token = await keyValueStorageService.getValue<String>('token');
+    if (token == null) return logout();
 
-  void _setLoggedUser(User user) {
+    try {
+      final user = await authRepository.checkAuthStatus(token);
+      _setLoggedUser(user);
+    } catch (e) {
+      logout();
+    }
+  }
+
+  void _setLoggedUser(User user) async {
+    await keyValueStorageService.setKEyValue('token', user.token);
     state = state.copyWith(
       user: user,
       authStatus: AuthStatus.authenticated,
@@ -47,6 +69,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> logout([String? errorMessage]) async {
     //Limpiar tokens
+    await keyValueStorageService.removeKey('token');
     state = state.copyWith(
         authStatus: AuthStatus.notAutenticated,
         user: null,
