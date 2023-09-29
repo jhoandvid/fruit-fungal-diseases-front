@@ -3,14 +3,19 @@ import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
+import 'package:go_router/go_router.dart';
 
 typedef SearchFruitDiseasesCallback = Future<List<FruitDiseases>> Function(
     String query);
 
 class SearchFruitDiseasesDelegate extends SearchDelegate<FruitDiseases?> {
   final SearchFruitDiseasesCallback searchFruitDiseases;
+
   StreamController<List<FruitDiseases>> debounceFruitsDiseases =
       StreamController.broadcast();
+
+  StreamController<bool> isLoadingStream = StreamController.broadcast();
+
   Timer? _debounceTimer;
 
   SearchFruitDiseasesDelegate({required this.searchFruitDiseases});
@@ -20,7 +25,9 @@ class SearchFruitDiseasesDelegate extends SearchDelegate<FruitDiseases?> {
   }
 
   void _onQueryChanged(String query) {
+    isLoadingStream.add(true);
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+    
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
       if (query.isEmpty) {
@@ -28,8 +35,8 @@ class SearchFruitDiseasesDelegate extends SearchDelegate<FruitDiseases?> {
         return;
       }
       final fruitDiseases = await searchFruitDiseases(query);
-
       debounceFruitsDiseases.add(fruitDiseases);
+      isLoadingStream.add(false);
     });
   }
 
@@ -39,11 +46,26 @@ class SearchFruitDiseasesDelegate extends SearchDelegate<FruitDiseases?> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      FadeIn(
-          animate: query.isNotEmpty,
-          duration: const Duration(milliseconds: 200),
-          child: IconButton(
-              onPressed: () => query = '', icon: const Icon(Icons.clear)))
+      StreamBuilder(
+        initialData: false,
+        stream: isLoadingStream.stream,
+        builder: (context, snapshot) {
+          if (snapshot.data ?? false) {
+            return SpinPerfect(
+                spins: 10,
+                duration: const Duration(seconds: 20),
+                infinite: true,
+                child: IconButton(
+                    onPressed: () => query = '',
+                    icon: const Icon(Icons.refresh_rounded)));
+          }
+
+          return FadeIn(
+              animate: query.isNotEmpty,
+              child: IconButton(
+                  onPressed: () => query = '', icon: const Icon(Icons.clear)));
+        },
+      ),
     ];
   }
 
@@ -59,7 +81,27 @@ class SearchFruitDiseasesDelegate extends SearchDelegate<FruitDiseases?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text('buildResults');
+    return StreamBuilder(
+        stream: debounceFruitsDiseases.stream,
+        builder: (context, snapshot) {
+
+          _onQueryChanged(query);
+
+          final fruitsDiseases = snapshot.data ?? [];
+          return ListView.builder(
+            itemCount: fruitsDiseases.length,
+            itemBuilder: (context, index) {
+              final fruitDisiases = fruitsDiseases[index];
+              return _FruitDiseases(
+                  fruitDisiases: fruitDisiases,
+                  onMovieSelected: (context, fruitDisiases) {
+                    clearStreams();
+                    close(context, fruitDisiases);
+                    
+                  });
+            },
+          );
+        });
   }
 
   @override
@@ -100,12 +142,17 @@ class _FruitDiseases extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        onMovieSelected(context, fruitDisiases);
+      
+       onMovieSelected(context, fruitDisiases);
+        //navegar
+        
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
           children: [
+          
+      
             SizedBox(
               width: size.width * 0.23,
               child: ClipRRect(

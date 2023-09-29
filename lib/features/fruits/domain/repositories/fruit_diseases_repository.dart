@@ -4,4 +4,5 @@ import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_disea
 abstract class FruitDiseasesRepository {
   Future<List<FruitDiseases>> getFruitDiseases({int page=1}); 
   Future<List<FruitDiseases>> searchFruitDisease(String query);
+    Future<FruitDiseases> getFruitDiseaseById(String id);
 }

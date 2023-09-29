@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
+import 'package:go_router/go_router.dart';
 
 class FruitCard extends StatelessWidget {
   final FruitDiseases fruitDiseases;
@@ -32,10 +33,14 @@ class FruitCard extends StatelessWidget {
           ),
           child: Column(
             children: [
-              fruitDiseases.imageUrl.isEmpty
+              GestureDetector(
+                onTap: () => context.push('/fruit/diseases/${fruitDiseases.id}'),
+                child: fruitDiseases.imageUrl.isEmpty
               ? Image.asset('assets/images/no-image.jpg', width: 200, height: 200, fit: BoxFit.cover)
               : Image.network(fruitDiseases.imageUrl, width: 200, height: 220, fit: BoxFit.cover),
-              SizedBox(height: 5),
+              
+              ),
+              const SizedBox(height: 5),
               Center(
                 child: Text(
                   fruitDiseases.scientificName,

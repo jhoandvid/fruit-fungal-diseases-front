@@ -1,0 +1,1 @@
+class FruitDiseaseNotFount implements Exception{}

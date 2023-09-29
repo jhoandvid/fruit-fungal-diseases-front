@@ -9,8 +9,8 @@ import 'package:fruit_fungal_diseases/features/shared/widgets/side_menu.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 
-class FruitDiseasesScreen extends ConsumerWidget {
-  const FruitDiseasesScreen({super.key});
+class FruitDiseasesViews extends ConsumerWidget {
+  const FruitDiseasesViews({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,6 +27,7 @@ class FruitDiseasesScreen extends ConsumerWidget {
                 final fruitRepository = ref.read(fruitRepositoryProvider);
 
                 showSearch<FruitDiseases?>(
+                        
                         context: context,
                         delegate: SearchFruitDiseasesDelegate(
                             searchFruitDiseases:

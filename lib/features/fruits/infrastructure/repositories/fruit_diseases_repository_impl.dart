@@ -16,4 +16,9 @@ class FruitDiseasesRepositoryImpl extends FruitDiseasesRepository {
   Future<List<FruitDiseases>> searchFruitDisease(String query) {
     return fruitDiseasesDatasource.searchFruitDisease(query);
   }
+
+  @override
+  Future<FruitDiseases> getFruitDiseaseById(String id) {
+    return fruitDiseasesDatasource.getFruitDiseaseById(id);
+  }
 }

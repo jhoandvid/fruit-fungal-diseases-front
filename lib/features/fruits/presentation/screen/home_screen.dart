@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fruit_fungal_diseases/features/fruits/presentation/views/fruit_diseases_screen.dart';
+import 'package:fruit_fungal_diseases/features/fruits/presentation/views/fruit_diseases_views.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     
-     final screens = [const FruitDiseasesScreen(), const FruitDiseasesScreen(), const FruitDiseasesScreen()];
+     final screens = [const FruitDiseasesViews(), const FruitDiseasesViews(), const FruitDiseasesViews()];
 
     return Scaffold(
        body: IndexedStack(
