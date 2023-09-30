@@ -4,4 +4,5 @@ abstract class FruitDiseasesDatasource {
   Future<List<FruitDiseases>> getFruitDiseases();
   Future<List<FruitDiseases>> searchFruitDisease(String query);
   Future<FruitDiseases> getFruitDiseaseById(String id);
+  Future<List<FruitDiseases>> searchAvencedFruitDisease(String search, String fruit);
 }

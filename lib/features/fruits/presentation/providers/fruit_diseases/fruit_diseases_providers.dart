@@ -4,6 +4,7 @@ import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/fru
 
 final nowFruitDiseasesProvider = StateNotifierProvider<FruitDiseasesNotifier, List<FruitDiseases>>((ref) {
   final fecthMoreFruitDiseases= ref.watch(fruitRepositoryProvider).getFruitDiseases;
+  
   return FruitDiseasesNotifier(fecthMoreFruitDiseases: fecthMoreFruitDiseases);
 });
 

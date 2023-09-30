@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fruit_fungal_diseases/config/constants/environment.dart';
+import 'package:fruit_fungal_diseases/features/auth/infraestructure/infrastructure.dart';
 import 'package:fruit_fungal_diseases/features/fruits/domain/datasources/fruit_diseasesdb_datasource.dart';
 import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
 import 'package:fruit_fungal_diseases/features/fruits/infrastructure/errors/fruit_disease_error.dart';
@@ -8,20 +9,13 @@ import 'package:fruit_fungal_diseases/features/fruits/infrastructure/mappers/fru
 class FruitDiseasesdbDatasource extends FruitDiseasesDatasource {
   //final dio = Dio(BaseOptions(baseUrl: 'http://10.0.2.2:8000'));
 
-    late final Dio dio;
-    final String accessToken;
+  late final Dio dio;
+  final String accessToken;
 
-  FruitDiseasesdbDatasource({
-    required this.accessToken
-  }) : dio = Dio(
-    BaseOptions(
-      baseUrl: Enviroment.apiUrl,
-      headers: {
-        'Authorization': 'Bearer $accessToken'
-      }
-    )
-  );
-
+  FruitDiseasesdbDatasource({required this.accessToken})
+      : dio = Dio(BaseOptions(
+            baseUrl: Enviroment.apiUrl,
+            headers: {'Authorization': 'Bearer $accessToken'}));
 
   @override
   Future<List<FruitDiseases>> getFruitDiseases() async {
@@ -31,39 +25,58 @@ class FruitDiseasesdbDatasource extends FruitDiseasesDatasource {
       fruitsDisiases.add(FruitDiseasesMapper.jsonToEntity(fruitsDisease));
     }
     return fruitsDisiases;
-
-  
   }
-  
+
   @override
   Future<List<FruitDiseases>> searchFruitDisease(String query) async {
-    final response = await dio.get('/fruit/search', queryParameters: {'query':query});
+    final response =
+        await dio.get('/fruit/search', queryParameters: {'query': query});
     final List<FruitDiseases> fruitsDisiases = [];
     for (final fruitsDisease in response.data ?? []) {
       fruitsDisiases.add(FruitDiseasesMapper.jsonToEntity(fruitsDisease));
     }
     return fruitsDisiases;
   }
-  
-  
+
   @override
   Future<FruitDiseases> getFruitDiseaseById(String id) async {
-    
     try {
-      
       final response = await dio.get('/fruit/diseases/$id');
       final fruitDisease = FruitDiseasesMapper.jsonToEntity(response.data);
       return fruitDisease;
-
     } on DioException catch (e) {
-      if ( e.response!.statusCode == 404 ) throw FruitDiseaseNotFount();
+      if (e.response!.statusCode == 404) throw FruitDiseaseNotFount();
       throw Exception();
-
-    }catch (e) {
+    } catch (e) {
       throw Exception();
     }
-
   }
+
+  @override
+  Future<List<FruitDiseases>> searchAvencedFruitDisease(
+      String search, String fruit) async {
+    try {
+      final response = await dio.post('/contents/search/nlCloud',
+          data: {"question": search, "fruit": fruit});
+      final List<FruitDiseases> fruitsDisiases = [];
+      for (final fruitsDisease in response.data ?? []) {
+        fruitsDisiases.add(FruitDiseasesMapper.jsonToEntity(fruitsDisease));
+      }
+      return fruitsDisiases;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        throw CustomError(
+            e.response?.data['message'] ?? 'No se encontro la enfermedad');
+      }
+      if (e.type == DioExceptionType.connectionTimeout) {
+        throw CustomError('Revisar conexión a internet');
+      }
+      throw Exception();
+    } catch (e) {
+      throw Exception();
+    }
+  }
+}
 
 
 
@@ -84,4 +97,4 @@ class FruitDiseasesdbDatasource extends FruitDiseasesDatasource {
 
   //}
 
-}
+

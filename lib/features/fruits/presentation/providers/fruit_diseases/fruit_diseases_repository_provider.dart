@@ -8,11 +8,11 @@ final fruitRepositoryProvider = Provider((ref) {
 
   final accessToken = ref.watch( authProvider ).user?.token ?? '';
 
-    final productsRepository = FruitDiseasesRepositoryImpl(
+    final fruitDiseaseRepository = FruitDiseasesRepositoryImpl(
     FruitDiseasesdbDatasource(accessToken: accessToken )
   );
 
-  return productsRepository;
+  return fruitDiseaseRepository;
 });
 
 

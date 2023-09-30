@@ -120,7 +120,7 @@ class _FruitDiseaseDetails extends StatelessWidget {
   }
 
   Future<void> _launchUrl(url) async {
-    final Uri url0 = Uri.parse('https://flutter.dev');
+    final Uri url0 = Uri.parse(url);
     if (!await launchUrl(url0)) {
       throw Exception('Could not launch $url');
     }
