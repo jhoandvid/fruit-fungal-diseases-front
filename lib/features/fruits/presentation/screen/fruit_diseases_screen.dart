@@ -1,8 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
+import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fruit_diseases.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/fruit_diseases/fruit_disease_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -99,11 +97,11 @@ class _FruitDiseaseDetails extends StatelessWidget {
                       final reference = fruitDiseases.references[index];
                       return ListTile(
                         leading: const Icon(Icons.link),
-                        title: Text(reference['title'] ?? ''),
-                        subtitle: Text(reference['url'] ?? ''),
+                        title: Text(reference.title),
+                        subtitle: Text(reference.url),
                         onTap: () {
-                          final url = reference['url'];
-                          if (url != null) {
+                          final url = reference.url;
+                          if (url.isNotEmpty) {
                             _launchUrl(url);
                           }
                         },
@@ -125,9 +123,6 @@ class _FruitDiseaseDetails extends StatelessWidget {
       throw Exception('Could not launch $url');
     }
   }
-
-
-
 }
 
 class _OrderedListView extends StatelessWidget {
@@ -166,8 +161,6 @@ class _OrderedListView extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 class _CustomListText extends StatelessWidget {
@@ -206,6 +199,17 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.5,
       foregroundColor: Colors.white,
+      actions: [
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.favorite_border,
+              //Icons.favorite,
+
+              //color: Colors.red,
+              size: 30,
+            ))
+      ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         title: Text(
@@ -220,30 +224,64 @@ class _CustomSliverAppBar extends StatelessWidget {
                   ? Image.asset('assets/images/no-image.jpg', fit: BoxFit.cover)
                   : Image.network(fruitDiseases.imageUrl, fit: BoxFit.cover),
             ),
-            const SizedBox.expand(
-              child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: [0.5, 1.0],
-                          colors: [Colors.transparent, Colors.black87]))),
+            const _CustomGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.5, 1.0],
+              colors: [Colors.transparent, Colors.black87],
             ),
-            const SizedBox.expand(
-              child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      gradient:
-                          LinearGradient(begin: Alignment.topLeft, stops: [
-                0.0,
-                0.4
-              ], colors: [
+            const _CustomGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: [0.0, 0.4],
+              colors: [
+                Colors.black54,
+                Colors.transparent,
+              ],
+            ),
+            const _CustomGradient(
+              begin: Alignment.topRight,
+              stops: [0.0, 0.4],
+              colors: [
                 Colors.black87,
                 Colors.transparent,
-              ]))),
-            )
+              ],
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<double> stops;
+  final List<Color> colors;
+
+  //begin
+  //end
+  //stops
+  //colors
+
+  const _CustomGradient(
+      {this.begin = Alignment.centerLeft,
+      this.end = Alignment.centerRight,
+      required this.stops,
+      required this.colors});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: DecoratedBox(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+        begin: begin,
+        end: end,
+        stops: stops,
+        colors: colors,
+      ))),
     );
   }
 }

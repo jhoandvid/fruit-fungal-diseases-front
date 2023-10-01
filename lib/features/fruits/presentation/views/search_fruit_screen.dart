@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/fruit_diseases/fruit_disease_providers.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/search/search_diseases_provider.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/widgets/fruit_card.dart';
 import 'package:fruit_fungal_diseases/features/shared/widgets/custom_filled_button.dart';
@@ -59,28 +58,13 @@ class SearchAndCheckboxWidgetState extends ConsumerWidget {
                         .onFormSubmit)),
           ),
 
-          //Expanded(
-          //child: Padding(
-          //padding: const EdgeInsets.symmetric(horizontal: 20),
-          //child: MasonryGridView.count(
-          // crossAxisCount: 2,
-          // mainAxisSpacing: 10,
-          // crossAxisSpacing: 20,
-          // itemCount: searchFruitDesease.diseasesFruit.length,
-          // itemBuilder: (context, index) {
-          //   return FruitCard(fruitDiseases: searchFruitDesease.diseasesFruit[index]);
-          // },
-          // ),
-          // ),
-          //),
-
           SizedBox(height: 12),
 
           searchFruitDesease.isData==false?
           Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const  EdgeInsets.all(16.0),
           
-          child: Text(
+          child: const Text(
             'No se encontró información relacionada',
             style: TextStyle(
               fontSize: 16.0, // Puedes ajustar el tamaño del texto según tus preferencias
@@ -90,13 +74,13 @@ class SearchAndCheckboxWidgetState extends ConsumerWidget {
 )
           :
 
-          Expanded(
+         Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: MasonryGridView.count(
                 crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 20,
+                mainAxisSpacing: 1,
+                crossAxisSpacing: 10,
                 itemCount: searchFruitDesease.diseasesFruit.length,
                 itemBuilder: (context, index) {
                   return FruitCard(
@@ -106,6 +90,7 @@ class SearchAndCheckboxWidgetState extends ConsumerWidget {
             ),
           ),
         ]));
+
   }
 }
 
@@ -126,11 +111,10 @@ class _SelectedFruit extends ConsumerWidget {
         segments: genders.map((size) {
           return ButtonSegment(
               value: size,
-              label: Text(size, style: const TextStyle(fontSize: 12)));
+              label: Text(size, style: const TextStyle(fontSize: 14)));
         }).toList(),
         selected: {selectedFruit},
-        onSelectionChanged: 
-        (newSelection) {
+        onSelectionChanged: (newSelection) {
           ref
               .read(searchFruitDiseasesFormProvider.notifier)
               .onSelectedFruitChanged(newSelection.first);

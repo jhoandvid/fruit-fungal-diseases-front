@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:fruit_fungal_diseases/config/constants/environment.dart';
 import 'package:fruit_fungal_diseases/features/auth/infraestructure/infrastructure.dart';
 import 'package:fruit_fungal_diseases/features/fruits/domain/datasources/fruit_diseasesdb_datasource.dart';
-import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
+import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fruit_diseases.dart';
 import 'package:fruit_fungal_diseases/features/fruits/infrastructure/errors/fruit_disease_error.dart';
 import 'package:fruit_fungal_diseases/features/fruits/infrastructure/mappers/fruit_diseases_mapper.dart';
 
@@ -48,6 +48,7 @@ class FruitDiseasesdbDatasource extends FruitDiseasesDatasource {
       if (e.response!.statusCode == 404) throw FruitDiseaseNotFount();
       throw Exception();
     } catch (e) {
+      print(e);
       throw Exception();
     }
   }

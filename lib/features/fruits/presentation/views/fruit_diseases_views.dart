@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
+import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fruit_diseases.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/delegates/search_fruit_diseases_delegate.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/fruit_diseases/fruit_diseases_providers.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/fruit_diseases/fruit_diseases_repository_provider.dart';
@@ -21,6 +21,7 @@ class FruitDiseasesViews extends ConsumerWidget {
       drawer: SideMenu(scaffoldKey: scaffoldkey),
       appBar: AppBar(
         title: const Text('Enfermedades de la Fruta'),
+        centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {

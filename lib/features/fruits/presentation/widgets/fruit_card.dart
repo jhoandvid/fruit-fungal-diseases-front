@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
+import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fruit_diseases.dart';
 import 'package:go_router/go_router.dart';
 
 class FruitCard extends StatelessWidget {

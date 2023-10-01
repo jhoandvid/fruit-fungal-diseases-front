@@ -39,20 +39,17 @@ class SideMenuState extends ConsumerState<SideMenu> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 16, 10),
-            child: Text('Tony Stark', style: textStyles.titleSmall),
+            child: Text('${ref.read(authProvider).user?.name}', style: textStyles.titleSmall),
           ),
           const NavigationDrawerDestination(
             icon: Icon(Icons.home_outlined),
-            label: Text('Productos'),
+            label: Text('Menu Principal'),
           ),
           const Padding(
             padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
             child: Divider(),
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
-            child: Text('Otras opciones'),
-          ),
+          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomFilledButton(

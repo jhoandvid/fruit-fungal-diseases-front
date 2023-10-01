@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
-import 'package:go_router/go_router.dart';
+import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fruit_diseases.dart';
 
 typedef SearchFruitDiseasesCallback = Future<List<FruitDiseases>> Function(
     String query);

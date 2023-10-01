@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
-import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fuit_diseases.dart';
+import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fruit_diseases.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/fruit_diseases/fruit_diseases_repository_provider.dart';
 import 'package:fruit_fungal_diseases/features/shared/infraestructure/input/search.dart';
 
@@ -34,7 +34,7 @@ class SearchFruitDiseases extends StateNotifier<SearchDiseaseState> {
     _touchedEveryField();
     if (!state.isValid) return;
     state = state.copyWith(isPosting: true, isLoading: true);
-
+    try{
     final List<FruitDiseases> diseasesFruit =
         await searchFruitDisease(state.search.value, state.fruit);
 
@@ -45,6 +45,11 @@ class SearchFruitDiseases extends StateNotifier<SearchDiseaseState> {
       state = state.copyWith(
         isPosting: false, diseasesFruit: diseasesFruit, isLoading: false, isData: true);
     }
+    }catch(e){
+      state = state.copyWith(
+        isPosting: false, diseasesFruit: [], isLoading: false, isData: false);
+    }
+    
 
     
   }
