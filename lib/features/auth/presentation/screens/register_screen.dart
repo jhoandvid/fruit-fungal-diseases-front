@@ -43,10 +43,10 @@ class RegisterScreen extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 50),
+            
 
             Container(
-              height: size.height - 260, // 80 los dos sizebox y 100 el ícono
+              height: size.height -100, // 80 los dos sizebox y 100 el ícono
               width: double.infinity,
               decoration: BoxDecoration(
                 color: scaffoldBackgroundColor,
@@ -86,7 +86,7 @@ class _RegisterForm extends ConsumerWidget {
     final textStyles = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         children: [
           const SizedBox(height: 50),
@@ -129,7 +129,7 @@ class _RegisterForm extends ConsumerWidget {
                 ? registerForm.confirmPassword.errorMessage
                 : null,
           ),
-          const SizedBox(height: 30),
+      const SizedBox(height: 30),
           SizedBox(
               width: double.infinity,
               height: 60,
@@ -138,7 +138,7 @@ class _RegisterForm extends ConsumerWidget {
                 buttonColor: Colors.green,
                 onPressed: registerForm.isPosting? null: ref.read(registerFormProvider.notifier).onFormSubmit
               )),
-          const Spacer(flex: 2),
+         
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -153,7 +153,7 @@ class _RegisterForm extends ConsumerWidget {
                   child: const Text('Ingresa aquí'))
             ],
           ),
-          const Spacer(flex: 1),
+       
         ],
       ),
     );

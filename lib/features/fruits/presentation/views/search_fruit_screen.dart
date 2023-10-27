@@ -96,7 +96,7 @@ class SearchAndCheckboxWidgetState extends ConsumerWidget {
 
 class _SelectedFruit extends ConsumerWidget {
   final String selectedFruit;
-  final List<String> genders = const ['Pera', 'kiwi', 'Maracuya', 'Gua'];
+  final List<String> fruits = const ['Manzana', 'kiwi', 'Maracuya', 'Gua'];
 
   const _SelectedFruit({required this.selectedFruit});
 
@@ -108,10 +108,10 @@ class _SelectedFruit extends ConsumerWidget {
         multiSelectionEnabled: false,
         showSelectedIcon: false,
         style: const ButtonStyle(visualDensity: VisualDensity.compact),
-        segments: genders.map((size) {
+        segments: fruits.map((size) {
           return ButtonSegment(
               value: size,
-              label: Text(size, style: const TextStyle(fontSize: 14)));
+              label: Text(size, style: const TextStyle(fontSize: 12)));
         }).toList(),
         selected: {selectedFruit},
         onSelectionChanged: (newSelection) {

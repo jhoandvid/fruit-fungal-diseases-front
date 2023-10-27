@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fruit_fungal_diseases/features/fruits/domain/entities/fruit_diseases.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/fruit_diseases/fruit_disease_providers.dart';
+import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/storage/favorite_fruits_diseases_provider.dart';
+import 'package:fruit_fungal_diseases/features/fruits/presentation/providers/storage/local_storage_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FruitDiseasesScreen extends ConsumerWidget {
@@ -36,14 +38,7 @@ class FruitDiseasesScreen extends ConsumerWidget {
                   childCount: 1))
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        //child: const Icon(Icons.save_as_outlined),
-        child: const Icon(
-          Icons.save_as_rounded,
-          color: Colors.green,
-        ),
-      ),
+     
     );
   }
 }
@@ -187,13 +182,21 @@ class _CustomListText extends StatelessWidget {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+final isFavoriteProvider =
+    FutureProvider.family.autoDispose((ref, String fruitDiseaseId) {
+  final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+  return localStorageRepository.isFruitDiseaseFavorite(fruitDiseaseId);
+});
+
+class _CustomSliverAppBar extends ConsumerWidget {
   final FruitDiseases fruitDiseases;
 
   const _CustomSliverAppBar({required this.fruitDiseases});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFavoriteFuture = ref.watch(isFavoriteProvider(fruitDiseases.id));
+
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
       backgroundColor: Colors.black,
@@ -201,14 +204,33 @@ class _CustomSliverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.favorite_border,
-              //Icons.favorite,
+            onPressed: () async {
+              //ref.read(localStorageRepositoryProvider)
+              //.toggleFavorite(fruitDiseases);
+              await ref
+                  .read(favoriteFruitDiseasesProvider.notifier)
+                  .toggleFavorite(fruitDiseases);
 
-              //color: Colors.red,
-              size: 30,
-            ))
+              await Future.delayed(const Duration(milliseconds: 100));
+              ref.invalidate(isFavoriteProvider(fruitDiseases.id));
+            },
+            icon: isFavoriteFuture.when(
+                data: (isFavorite) => isFavorite
+                    ? const Icon(
+                        Icons.favorite_rounded,
+                        size: 30,
+                        color: Colors.red,
+                      )
+                    : const Icon(Icons.favorite_border, size: 30),
+                error: (_, __) => throw UnimplementedError(),
+                loading: () => CircularProgressIndicator(strokeWidth: 2))
+
+            //const Icon(Icons.favorite_border,size: 30,)
+
+            )
+        //Icons.favorite,
+
+        //color: Colors.red,
       ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

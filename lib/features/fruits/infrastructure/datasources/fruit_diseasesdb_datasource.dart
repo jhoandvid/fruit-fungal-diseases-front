@@ -57,8 +57,8 @@ class FruitDiseasesdbDatasource extends FruitDiseasesDatasource {
   Future<List<FruitDiseases>> searchAvencedFruitDisease(
       String search, String fruit) async {
     try {
-      final response = await dio.post('/contents/search/nlCloud',
-          data: {"question": search, "fruit": fruit});
+      final response = await dio
+          .post('/contents/search', data: {"question": search, "fruit": fruit});
       final List<FruitDiseases> fruitsDisiases = [];
       for (final fruitsDisease in response.data ?? []) {
         fruitsDisiases.add(FruitDiseasesMapper.jsonToEntity(fruitsDisease));

@@ -147,7 +147,7 @@ class _FruitDiseases extends StatelessWidget {
         
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         child: Row(
           children: [
           
@@ -166,22 +166,27 @@ class _FruitDiseases extends StatelessWidget {
             const SizedBox(width: 10),
 
             //Descripción
-            SizedBox(
-              width: size.width * 0.7,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    fruitDisiases.scientificName,
-                    style: textStyles.titleMedium,
-                  ),
+            //Descripción
+        Expanded( // Add this
+          child: Padding(
+            padding: const EdgeInsets.only(right: 10), // Add some padding to avoid right overflow
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  fruitDisiases.scientificName,
+                  style: textStyles.titleMedium,
+                ),
+                Text(
                   fruitDisiases.description.length > 100
-                      ? Text(
-                          '${fruitDisiases.description.substring(0, 100)}...')
-                      : Text(fruitDisiases.description)
-                ],
-              ),
-            )
+                      ? '${fruitDisiases.description.substring(0, 100)}...'
+                      : fruitDisiases.description,
+                  softWrap: true, // Ensures text wraps
+                ),
+              ],
+            ),
+          ),
+        ),
           ],
         ),
       ),

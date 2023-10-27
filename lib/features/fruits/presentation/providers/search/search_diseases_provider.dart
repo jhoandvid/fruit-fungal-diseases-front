@@ -75,7 +75,7 @@ class SearchDiseaseState {
   SearchDiseaseState({
     this.search = const Search.pure(),
     this.isPosting = false,
-    this.fruit = "Pera",
+    this.fruit = "Manzana",
     this.isValid = false,
     this.isFormPosted = false,
     this.isLoading = false,
