@@ -41,10 +41,13 @@ class FruitCard extends StatelessWidget {
               
               ),
               const SizedBox(height: 5),
+              
               Center(
                 child: Text(
                   fruitDiseases.scientificName,
                   style: textStyles.titleMedium,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
                 
               ),

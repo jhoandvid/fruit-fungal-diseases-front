@@ -96,7 +96,7 @@ class SearchAndCheckboxWidgetState extends ConsumerWidget {
 
 class _SelectedFruit extends ConsumerWidget {
   final String selectedFruit;
-  final List<String> fruits = const ['Manzana', 'kiwi', 'Maracuya', 'Gua'];
+  final List<String> fruits = const ['Limon', 'Naranja', 'Mandarina', 'Toronja'];
 
   const _SelectedFruit({required this.selectedFruit});
 

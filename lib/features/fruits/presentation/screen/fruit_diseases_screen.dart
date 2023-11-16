@@ -71,13 +71,13 @@ class _FruitDiseaseDetails extends StatelessWidget {
                   _CustomListText(
                       title: 'Sintomas:', subtitle: fruitDiseases.symptoms),
                   _CustomListText(
-                      title: 'Control de la enfermedad:',
+                      title: 'Sugerencias:',
                       subtitle: fruitDiseases.management),
                   ...fruitDiseases.hostPlants.isEmpty
                       ? [] // No hay elementos en hostPlants, por lo que no se muestra ningún título.
                       : [
                           _CustomListText(
-                            title: 'Plantas huésped:',
+                            title: 'Plantas Infectadas:',
                             subtitle: fruitDiseases.hostPlants.join(
                                 ", "), // Combina los elementos en una sola cadena
                           ),

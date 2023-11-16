@@ -19,14 +19,18 @@ class StorageFruitsDiseasesNotifier
       : super({});
 
   Future<List<FruitDiseases>> loadFavoriteFruitDiseases() async {
-    final fruitsDiseases = await localStorageRepository.loadFruitDisease();
+  final fruitsDiseases = await localStorageRepository.loadFruitDisease();
 
-    for (final fruitDisease in fruitsDiseases) {
-      state = {fruitDisease.id: fruitDisease};
-    }
+  final Map<String, FruitDiseases> updatedState = {};
 
-    return fruitsDiseases;
+  for (final fruitDisease in fruitsDiseases) {
+    updatedState[fruitDisease.id] = fruitDisease;
   }
+
+  state = {...state, ...updatedState};
+
+  return fruitsDiseases;
+}
 
   Future<void> toggleFavorite(FruitDiseases fruitDiseases) async {
     final bool isFruitDiseasesinFavorite =
