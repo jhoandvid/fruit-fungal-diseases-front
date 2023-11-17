@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomFilledButton extends StatelessWidget {
 
   final void Function()? onPressed;
-  final String text;
+  final Widget text;
   final Color? buttonColor;
 
   const CustomFilledButton({
@@ -29,9 +29,9 @@ class CustomFilledButton extends StatelessWidget {
         )
       )),
         
-  
+      
       onPressed: onPressed, 
-      child: Text(text)
+      child: text
     );
   }
 }

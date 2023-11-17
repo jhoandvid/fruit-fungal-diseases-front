@@ -5,6 +5,7 @@ import 'package:fruit_fungal_diseases/features/auth/presentation/screens/check_a
 import 'package:fruit_fungal_diseases/features/auth/presentation/screens/login_screen.dart';
 import 'package:fruit_fungal_diseases/features/auth/presentation/screens/register_screen.dart';
 import 'package:fruit_fungal_diseases/features/fruits/presentation/screen/fruit_diseases_screen.dart';
+import 'package:fruit_fungal_diseases/features/fruits/presentation/views/favorite_fruit_diseases.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/fruits/presentation/screen/home_screen.dart';
@@ -33,6 +34,11 @@ final goRouterProvider = Provider((ref) {
           builder: (context, state) => const HomeScreen(),
          
         ),
+        GoRoute(
+          path: '/search',
+          builder: (context, state) => const FavoriteFruitDiseasesScreen(),
+         
+        ),
          GoRoute(
             path: '/fruit/diseases/:id',
             builder: (context, state) {
@@ -58,7 +64,8 @@ final goRouterProvider = Provider((ref) {
         if (authStatus == AuthStatus.authenticated) {
           if (isGoingTo == '/login' ||
               isGoingTo == '/register' ||
-              isGoingTo == '/splash') return '/';
+              isGoingTo == '/splash'
+              ) return '/';
         }
 
 

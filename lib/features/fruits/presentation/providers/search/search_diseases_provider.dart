@@ -26,7 +26,7 @@ class SearchFruitDiseases extends StateNotifier<SearchDiseaseState> {
 
   onSelectedFruitChanged(String value) {
     state = state.copyWith(fruit: value, isData: true);
-    print(value);
+   
   }
 
   onFormSubmit() async {

@@ -10,7 +10,6 @@ final loginFormProvider =
   return LoginFormNotifier(loginUserCallback: loginUserCallback);
 });
 
-//! 2- Como implementar un notifacer
 class LoginFormNotifier extends StateNotifier<LoginFormState> {
   final Function(String, String) loginUserCallback;
 

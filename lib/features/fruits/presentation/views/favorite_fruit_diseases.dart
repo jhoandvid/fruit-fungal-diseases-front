@@ -58,7 +58,7 @@ class _FruitDiseasesViewState extends ConsumerState<_FruitDiseasesView> {
                 height: 20,
               ),
               CustomFilledButton(
-                  text: 'Buscar',
+                  text: Text('Buscar'),
                   buttonColor: Colors.green,
                   onPressed: () {
                     context.push('/');
